@@ -22,6 +22,7 @@ public class AccuweatherModel {
     static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void getWeather(String selectedCity, Period period) throws IOException {
+
       HttpUrl httpUrl = new HttpUrl.Builder()
                .scheme(PROTOCOL)
                .host(BASE_HOST)
@@ -60,13 +61,13 @@ public class AccuweatherModel {
         String responseBody = response.body().string();
 
         String cityKey = objectMapper.readTree(responseBody).get(0).at("/Key").asText();
-        System.out.println(cityKey);
-        return responseBody;
+        return cityKey;
     }
 
 
         public static void main(String[] args) throws IOException {
         getWeather("Saint Petersburg", Period.NOW);
+
         }
 }
 
