@@ -22,6 +22,7 @@ public class AccuweatherModel {
     static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void getWeather(String selectedCity, Period period) throws IOException {
+        if (period == Period.NOW){
 
       HttpUrl httpUrl = new HttpUrl.Builder()
                .scheme(PROTOCOL)
@@ -38,9 +39,16 @@ public class AccuweatherModel {
 
       Response response = okHttpClient.newCall(request).execute();
       System.out.println(response.body().string());
+     // String weatherText = objectMapper.readTree().get(0).at("/").asText();
+      //Integer degrees = objectMapper.readTree((responseString).get(0).at("/Temperature/Metric/Value").asInt();
+      //Weather weather - new Weather(selectedCity, weatherText, degrees);
+     // System.out.println(weather);
 
     }
+        if (period == Period.FIVE_DAYS){
 
+        }
+    }
     public static String getCityKey(String city) throws IOException {
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme(PROTOCOL)
