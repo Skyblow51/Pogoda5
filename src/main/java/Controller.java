@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Controller {
-    //private WeatherResponse weatherResponse = (WeatherResponse) new AccuweatherModel();
+    private WeatherResponse weatherResponse = new AccuweatherModel();
 
     private Map<Integer, Period> variantResult = new HashMap<>();
 
@@ -17,9 +17,10 @@ public class Controller {
 
         switch (variantResult.get(integerCommand)) {
             case NOW:
-               // weatherResponse.getWeather(selectedCity,Period.NOW);
+                weatherResponse.getWeather(selectedCity,Period.NOW);
                 break;
             case FIVE_DAYS:
+                weatherResponse.getWeather(selectedCity,Period.FIVE_DAYS);
                 throw new IOException("Вывод погоды не реализован!");
         }
     }

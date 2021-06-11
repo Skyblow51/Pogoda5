@@ -8,7 +8,7 @@ import okhttp3.Response;
 import java.io.IOException;
 
 
-public class AccuweatherModel {
+public class AccuweatherModel implements WeatherResponse {
     private static final String PROTOCOL = "http";
     private static final String BASE_HOST = "dataservice.accuweather.com";
     private static  final String CURRENT_CONDITIONS = "currentconditions";
@@ -21,35 +21,38 @@ public class AccuweatherModel {
     static OkHttpClient okHttpClient = new  OkHttpClient();
     static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void getWeather(String selectedCity, Period period) throws IOException {
+    public void getWeather(String selectedCity, Period period) throws IOException {
         if (period == Period.NOW){
-
-      HttpUrl httpUrl = new HttpUrl.Builder()
-               .scheme(PROTOCOL)
-               .host(BASE_HOST)
-               .addPathSegments(CURRENT_CONDITIONS)
-                .addPathSegments(VERSION)
-              .addPathSegments(getCityKey(selectedCity))
-              .addQueryParameter("apikey", API_KEY)
-              .build();
+            HttpUrl httpUrl = new HttpUrl.Builder()
+                    .scheme(PROTOCOL)
+                    .host(BASE_HOST)
+                    .addPathSegments(CURRENT_CONDITIONS)
+                    .addPathSegments(VERSION)
+                    .addPathSegments(getCityKey(selectedCity))
+                    .addQueryParameter("apikey", API_KEY)
+                    .build();
 
       Request request = new Request.Builder()
               .url(httpUrl)
               .build();
 
       Response response = okHttpClient.newCall(request).execute();
-      System.out.println(response.body().string());
-     // String weatherText = objectMapper.readTree().get(0).at("/").asText();
-      //Integer degrees = objectMapper.readTree((responseString).get(0).at("/Temperature/Metric/Value").asInt();
-      //Weather weather - new Weather(selectedCity, weatherText, degrees);
-     // System.out.println(weather);
+      String responseString = response.body().string();
+      String weatherText = objectMapper.readTree(responseString).get(0).at("/WeatherText").asText();
+      Integer degrees = objectMapper.readTree(responseString).get(0).at("/Temperature/Metric/Value").asInt();
+      Weather weather = new Weather(selectedCity, weatherText, degrees);
+      System.out.println(weather);
+
+
+
 
     }
         if (period == Period.FIVE_DAYS){
 
+
         }
     }
-    public static String getCityKey(String city) throws IOException {
+    public  String getCityKey(String city) throws IOException {
         HttpUrl httpUrl = new HttpUrl.Builder()
                 .scheme(PROTOCOL)
                 .host(BASE_HOST)
@@ -73,10 +76,7 @@ public class AccuweatherModel {
     }
 
 
-        public static void main(String[] args) throws IOException {
-        getWeather("Saint Petersburg", Period.NOW);
 
-        }
 }
 
 

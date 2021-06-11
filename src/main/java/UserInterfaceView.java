@@ -11,11 +11,11 @@ public class UserInterfaceView {
             System.out.println("Введите название города: ");
             String city = scanner.nextLine();
 
-            System.out.println("Введите опцию: 1 - получить текущую погоду, 0 - получить" + "прогногз погоды на 5 дней");
-            String cammand = scanner.nextLine();
+            System.out.println("Введите опцию: 1 - получить текущую погоду, 0 - получить" + "прогноз погоды на 5 дней");
+            String command = scanner.nextLine();
 
             try {
-                controller.getWeather(cammand, city);
+                controller.getWeather(command, city);
 
             } catch (IOException e){
                 e.printStackTrace();
